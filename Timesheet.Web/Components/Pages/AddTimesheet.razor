@@ -1,0 +1,102 @@
+﻿@page "/timesheets/add"
+@rendermode InteractiveServer
+
+@using Timesheet.Domain.Entities
+@using Timesheet.Application.Interfaces
+@inject ITimesheetService TimesheetService
+@inject NavigationManager NavManager
+
+<h1 class="mb-4">Add New Timesheet Entry</h1>
+
+<button class="btn btn-secondary mb-3" @onclick="GoBack">
+    ← Back to Timesheet Selector
+</button>
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">@successMessage</div>
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+<div class="card">
+    <div class="card-body">
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">User Id</label>
+                <input type="text" class="form-control" @bind="userId" />
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Project Id</label>
+                <input type="text" class="form-control" @bind="projectId" />
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Date</label>
+                <input type="date" class="form-control" @bind="date" />
+            </div>
+        </div>
+
+        <div class="row g-3 mt-2">
+            <div class="col-md-4">
+                <label class="form-label">Hours</label>
+                <input type="number" step="0.5" class="form-control" @bind="hours" />
+                <small class="text-muted">Between 0 and 9 hours</small>
+            </div>
+
+            <div class="col-md-8">
+                <label class="form-label">Description (optional)</label>
+                <input type="text" class="form-control" @bind="description" />
+            </div>
+        </div>
+
+        <button class="btn btn-success mt-3" @onclick="AddEntry">Add Entry</button>
+    </div>
+</div>
+
+@code {
+    private string userId = "";
+    private string projectId = "";
+    private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
+    private decimal hours = 1;
+    private string? description;
+
+    private string? errorMessage;
+    private string? successMessage;
+
+    private async Task AddEntry()
+    {
+        errorMessage = null;
+
+        var entry = new TimesheetEntry
+        {
+            UserId = userId,
+            ProjectId = projectId,
+            Date = date,
+            Hours = hours,
+            Description = description
+        };
+
+        try
+        {
+            TimesheetService.Add(entry);
+            successMessage = "Added!";
+            await Task.Delay(2000);
+            successMessage = null;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+    }
+
+    private void GoBack()
+    {
+        NavManager.NavigateTo("/timesheets");
+    }
+}

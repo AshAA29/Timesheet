@@ -1,0 +1,30 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+<h1 class="mb-3">Welcome to the Timesheet System</h1>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Timesheet Selector</h5>
+                <p class="card-text">
+                    View, edit, and delete timesheet entries for a selected user and week.
+                </p>
+                <a href="/timesheets" class="btn btn-primary">Go to Timesheet Selector</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Add New Timesheet</h5>
+                <p class="card-text">
+                    Create a new timesheet entry with user ID, project ID, hours, and description.
+                </p>
+                <a href="/timesheets/add" class="btn btn-success">Add New Timesheet</a>
+            </div>
+        </div>
+    </div>
+</div>
