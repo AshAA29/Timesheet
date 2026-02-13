@@ -5,7 +5,7 @@ This timesheet application is based on Blazor and .NET 10
 ### Running the application locally
 
 * Set the Timesheet.Web project as the startup project
-* run using https ot IIS Express
+* Run using https ot IIS Express
 
 ## Consideration made for this application
 
